@@ -9,6 +9,19 @@ Future<Weather> fetchWeather(String lat,String lon) async {
     headers: {'Accept': 'application/json'},
   );
   if(response.statusCode == 200){
+    return Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+  }else{
+    throw Exception('Failed to load weather data');
+
+  }
+}
+
+Future<Weather> fetchWeatherByCity(String city) async {
+
+  final response = await http.get(Uri.parse("https://api.weatherapi.com/v1/current.json?key=$key&q=$city"),
+    headers: {'Accept': 'application/json'},
+  );
+  if(response.statusCode == 200){
     print(response.body);
     return Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }else{

@@ -6,6 +6,7 @@ class Weather {
   final int feelsLike;
   final int uv;
   final String condition;
+  final String icon;
   // final int aqi;
 
   Weather({
@@ -15,7 +16,9 @@ class Weather {
     required this.humidity,
     required this.feelsLike,
     required this.uv,
-    required this.condition
+    required this.condition,
+    required this.icon,
+
   });
 
   Weather.fromJson(Map<String, dynamic> json)
@@ -25,5 +28,6 @@ class Weather {
       humidity = json['current']['humidity'].toInt(),
       feelsLike = json['current']['feelslike_c'].toInt(),
       uv = json['current']['uv'].toInt(),
-      condition = json['current']['condition']['text'];
+      condition = json['current']['condition']['text'],
+      icon = json['current']['condition']['icon'];
 }
