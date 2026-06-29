@@ -1,3 +1,7 @@
+import 'package:mausam/models/weekly_forecast.dart';
+
+import 'hourly_forecast.dart';
+
 class Weather {
   final String city;
   final int temperature;
@@ -7,6 +11,10 @@ class Weather {
   final int uv;
   final String condition;
   final String icon;
+  final List<HourlyForecast> hourlyForecast;
+  final List<WeeklyForecast> weeklyForecast;
+
+
   // final int aqi;
 
   Weather({
@@ -18,6 +26,9 @@ class Weather {
     required this.uv,
     required this.condition,
     required this.icon,
+    required this.hourlyForecast,
+    required this.weeklyForecast,
+
 
   });
 
@@ -29,5 +40,7 @@ class Weather {
       feelsLike = json['current']['feelslike_c'].toInt(),
       uv = json['current']['uv'].toInt(),
       condition = json['current']['condition']['text'],
-      icon = json['current']['condition']['icon'];
+      icon = json['current']['condition']['icon'],
+      hourlyForecast = (json['forecast']['forecastday'][0]['hour'] as List).map((item) => HourlyForecast.fromJson(item)).toList(),
+      weeklyForecast = (json['forecast']['forecastday'] as List).map((item) => WeeklyForecast.fromJson(item)).toList();
 }

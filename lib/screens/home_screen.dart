@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mausam/Widgets/box_decoration.dart';
-import '../models/model.dart';
+import '../models/hourly_forecast.dart';
+import '../models/weather.dart';
 import '../services/location_service.dart';
 import '../services/weather_service.dart';
 
@@ -60,21 +61,21 @@ class CitySearchDelegate extends SearchDelegate<String> {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<Weather>? weatherUpdates;
+  List<HourlyForecast> hourlyForecast = [];
 
   Future<void> fetchLocation() async {
     Position position = await determinePosition();
     setState(() {
       weatherUpdates = fetchWeather(
-        position.latitude.toString(),
-        position.longitude.toString(),
+        "${position.latitude.toString()},${position.longitude.toString()}",
       );
     });
   }
 
   @override
   void initState() {
-    fetchLocation();
     super.initState();
+    fetchLocation();
   }
 
   @override
@@ -105,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text(
                     snapshot.data!.city,
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue.shade900,
                     ),
@@ -120,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                         setState((){
                           if (city != null && city.isNotEmpty) {
-                            weatherUpdates = fetchWeatherByCity(city);
+                            weatherUpdates = fetchWeather(city);
                           }
                         });
                       },
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                   shadowColor: Colors.blue.shade100,
-                  expandedHeight: 200,
+                  expandedHeight: 300,
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Padding(
@@ -178,37 +179,75 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: 200,
+                          height: 250,
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.all(16),
+                          padding: EdgeInsets.all(8),
                           decoration: decoration,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '${weather.temperature}°C',
-                                style: TextStyle(
-                                  fontSize: 64,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Weekly forecast',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue.shade900,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                snapshot.data!.city,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
-                                ),
-                              ),
-                              Text(
-                                'Feels like : ${weather.feelsLike}°C',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: weather.weeklyForecast.length,
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (context, index) {
+                                    final weeklyForecast = weather.weeklyForecast[index];
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              weeklyForecast.date,
+                                              style: TextStyle(
+                                                fontSize: 28,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blue.shade900,
+                                              ),
+                                            ),
+                                            Image.network(
+                                              'https:${weeklyForecast.icon}',
+                                              width: 64,
+                                              height: 64,
+                                            ),
+                                            Text(
+                                              '${weeklyForecast.minTemperature}°C',
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blue.shade900,
+                                              ),
+                                            ),
+                                            Text(
+                                              '${weeklyForecast.maxTemperature}°C',
+                                              style: TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blue.shade900,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        index == 6 ? SizedBox() :
+                                        Divider(
+                                          color: Colors.blue.shade900,
+                                          thickness: 2,
+                                        ),
+                                      ],
+                                    );
+                                  }
                                 ),
                               ),
                             ],
@@ -216,37 +255,60 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(height: 12),
                         Container(
-                          height: 200,
+                          height: 240,
                           width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.all(16),
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(8),
                           decoration: decoration,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '${weather.temperature}°C',
-                                style: TextStyle(
-                                  fontSize: 64,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Today',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue.shade900,
+                                  ),
                                 ),
                               ),
-                              Text(
-                                weather.city,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
-                                ),
-                              ),
-                              Text(
-                                'Feels like : ${weather.feelsLike}°C',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue.shade900,
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: weather.hourlyForecast.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context,index){
+                                    final hourlyForecast = weather.hourlyForecast[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '${hourlyForecast.temperature}℃',
+                                            style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blue.shade900,
+                                            ),
+                                          ),
+                                          Image.network(
+                                            'https:${hourlyForecast.icon}',
+                                            width: 64,
+                                            height: 64,
+                                          ),
+                                          Text(
+                                            hourlyForecast.time,
+                                            style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blue.shade900,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 ),
                               ),
                             ],
@@ -260,14 +322,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Container(
                                 height: 150,
                                 alignment: Alignment.center,
-                                padding: EdgeInsets.all(16),
+                                padding: EdgeInsets.all(12),
                                 decoration: decoration,
-                                child: Text(
-                                  '${weather.windSpeed}km/h',
-                                  style: TextStyle(
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${weather.windSpeed}km/h',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue.shade900,
+                                      ),
+                                    ),
+                                    Text(
+                                      '💨Wind speed',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.blue.shade900,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -276,14 +352,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Container(
                                 height: 150,
                                 alignment: Alignment.center,
-                                padding: EdgeInsets.all(16),
+                                padding: EdgeInsets.all(12),
                                 decoration: decoration,
-                                child: Text(
-                                  '${weather.humidity}%',
-                                  style: TextStyle(
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${weather.feelsLike}℃',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue.shade900,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Real feel',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.blue.shade900,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -297,14 +387,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Container(
                                 height: 150,
                                 alignment: Alignment.center,
-                                padding: EdgeInsets.all(16),
+                                padding: EdgeInsets.all(12),
                                 decoration: decoration,
-                                child: Text(
-                                  '${weather.uv}',
-                                  style: TextStyle(
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${weather.uv}',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                        color: weather.uv < 3 ? Colors.green : Colors.red.shade800,
+                                      ),
+                                    ),
+                                    Text(
+                                      'UV',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.blue.shade900
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -313,14 +417,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Container(
                                 height: 150,
                                 alignment: Alignment.center,
-                                padding: EdgeInsets.all(16),
+                                padding: EdgeInsets.all(12),
                                 decoration: decoration,
-                                child: Text(
-                                  '${weather.humidity}%',
-                                  style: TextStyle(
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${weather.humidity}%',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue.shade900,
+                                      ),
+                                    ),
+                                    Text(
+                                      '💧Humidity',
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.blue.shade900,
+                                        // fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -338,3 +456,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+
