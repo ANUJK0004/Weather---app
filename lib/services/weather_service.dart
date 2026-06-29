@@ -9,7 +9,6 @@ Future<Weather> fetchWeather(String query) async {
     headers: {'Accept': 'application/json'},
   );
   if(response.statusCode == 200){
-    print(response.body);
     return Weather.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
   }else{
     throw Exception('Failed to load weather data');

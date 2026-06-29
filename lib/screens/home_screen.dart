@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:mausam/Widgets/box_decoration.dart';
 import '../models/hourly_forecast.dart';
 import '../models/weather.dart';
@@ -70,6 +71,27 @@ class _HomeScreenState extends State<HomeScreen> {
         "${position.latitude.toString()},${position.longitude.toString()}",
       );
     });
+  }
+
+  String getDayLabel(String date) {
+    final forecastDate = DateTime.parse(date);
+    final today = DateTime.now();
+
+    if (forecastDate.year == today.year &&
+        forecastDate.month == today.month &&
+        forecastDate.day == today.day) {
+      return "Today";
+    }
+
+    final tomorrow = today.add(const Duration(days: 1));
+
+    if (forecastDate.year == tomorrow.year &&
+        forecastDate.month == tomorrow.month &&
+        forecastDate.day == tomorrow.day) {
+      return "Tomorrow";
+    }
+
+    return DateFormat.EEEE().format(forecastDate);
   }
 
   @override
@@ -209,12 +231,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              weeklyForecast.date,
-                                              style: TextStyle(
-                                                fontSize: 28,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blue.shade900,
+                                            Expanded(
+                                              child: Text(
+                                                getDayLabel(weeklyForecast.date),
+                                                style: TextStyle(
+                                                  fontSize: 28,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blue.shade900,
+                                                ),
                                               ),
                                             ),
                                             Image.network(
@@ -222,6 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 64,
                                               height: 64,
                                             ),
+                                            SizedBox(width: 12),
                                             Text(
                                               '${weeklyForecast.minTemperature}°C',
                                               style: TextStyle(
@@ -230,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 color: Colors.blue.shade900,
                                               ),
                                             ),
+                                            SizedBox(width: 16),
                                             Text(
                                               '${weeklyForecast.maxTemperature}°C',
                                               style: TextStyle(
@@ -298,9 +324,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 64,
                                           ),
                                           Text(
-                                            hourlyForecast.time,
+                                            DateFormat.jm().format(DateTime.parse(hourlyForecast.time)),
                                             style: TextStyle(
-                                              fontSize: 24,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.blue.shade900,
                                             ),

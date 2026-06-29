@@ -16,7 +16,7 @@ class HourlyForecast{
     return HourlyForecast(
       icon : json['condition']['icon'],
       temperature : json['temp_c'].toInt(),
-      time : json['time'].toString().substring(11,16),
+      time : json['time'],
       condition : json['condition']['text'],
     );
   }
