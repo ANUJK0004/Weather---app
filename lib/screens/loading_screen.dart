@@ -37,10 +37,11 @@ class LoadingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text("Please wait", style: TextStyle(color: Colors.grey)),
+            const SizedBox(height: 8),
             const SizedBox(
               height: 50,
               width: 50,
-              child: CircularProgressIndicator(strokeWidth: 3),
+              child: CircularProgressIndicator(strokeWidth: 3,color: Colors.blue),
             ),
           ],
         ),

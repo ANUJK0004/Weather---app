@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mausam/Widgets/hourly_forecast_widget.dart';
+import 'package:mausam/Widgets/last_updated.dart';
 import 'package:mausam/Widgets/sliver_app_bar.dart';
+import 'package:mausam/Widgets/sunrise_sunset_card.dart';
 import 'package:mausam/Widgets/weekly_forecast_widget.dart';
 import 'package:mausam/Widgets/widget_info_grid.dart';
 import 'package:mausam/models/weather.dart';
@@ -33,11 +36,15 @@ class WeatherBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                WeeklyForecastWidget(weeklyForecast: weather.weeklyForecast),
-                const SizedBox(height: 20),
+                LastUpdated(time: DateFormat.jm().format(DateTime.now())),
                 HourlyForecastWidget(hourlyForecast: weather.hourlyForecast),
                 WidgetInfoGrid(weather: weather),
+                const SizedBox(height: 20),
+                SunriseSunsetCard(sunrise: weather.sunrise, sunset: weather.sunset,),
+                const SizedBox(height: 20),
+                WeeklyForecastWidget(weeklyForecast: weather.weeklyForecast),
               ],
             ),
           ),

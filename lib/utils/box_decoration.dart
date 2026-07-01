@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 BoxDecoration decoration = BoxDecoration(
-  borderRadius: BorderRadius.circular(16),
+  borderRadius: BorderRadius.circular(24),
   color: Colors.white.withOpacity(0.18),
   border: Border.all(
     color: Colors.white.withOpacity(0.25),

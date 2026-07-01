@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Future<Weather>? weatherUpdates;
 
+
   Future<void> fetchLocation() async {
     Position position = await determinePosition();
     setState(() {
