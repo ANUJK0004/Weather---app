@@ -33,7 +33,7 @@ class WeeklyForecastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 300,
       width: MediaQuery.of(context).size.width,
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.all(8),
