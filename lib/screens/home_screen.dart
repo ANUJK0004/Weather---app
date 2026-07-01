@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mausam/Widgets/weather_body.dart';
+import 'package:mausam/screens/error_screen.dart';
+import 'package:mausam/screens/loading_screen.dart';
 import 'package:mausam/utils/theme.dart';
 import 'package:mausam/utils/weather_background.dart';
 import '../models/weather.dart';
@@ -40,13 +42,16 @@ class _HomeScreenState extends State<HomeScreen> {
         future: weatherUpdates,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator(
-              color: fontColor,
-              backgroundColor: primary,
-            ));
+            return LoadingScreen();
           }
           if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return ErrorScreen(
+              onRetry: (){
+                setState((){
+                  weatherUpdates = fetchLocation() as Future<Weather>?;
+                });
+              },
+            );
           }
           if (!snapshot.hasData) {
             return const SizedBox();
