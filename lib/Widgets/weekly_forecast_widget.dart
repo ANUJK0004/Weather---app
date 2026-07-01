@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mausam/models/weekly_forecast.dart';
+import 'package:mausam/utils/theme.dart';
 
 import 'box_decoration.dart';
 
@@ -47,7 +48,7 @@ class WeeklyForecastWidget extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: Colors.blue.shade900,
+                color: fontColor,
               ),
             ),
           ),
@@ -68,7 +69,7 @@ class WeeklyForecastWidget extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue.shade900,
+                                color: fontColor,
                               ),
                             ),
                           ),
@@ -83,23 +84,23 @@ class WeeklyForecastWidget extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.blue.shade900,
+                              color: fontColor,
                             ),
                           ),
-                          SizedBox(width: 16),
+                          const SizedBox(width: 16),
                           Text(
                             '${weeklyForecast.maxTemperature}°C',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.blue.shade900,
+                              color: fontColor,
                             ),
                           ),
                         ],
                       ),
                       index == 6 ? SizedBox() :
                       Divider(
-                        color: Colors.blue.shade900,
+                        color: fontColor,
                         thickness: 2,
                       ),
                     ],

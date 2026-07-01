@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mausam/utils/theme.dart';
 import '../models/city_search_delegate.dart';
 
 class MausamSliverAppBar extends StatelessWidget {
@@ -25,7 +26,7 @@ class MausamSliverAppBar extends StatelessWidget {
         style: TextStyle(
           fontSize: 36,
           fontWeight: FontWeight.bold,
-          color: Colors.blue.shade900,
+          color: fontColor,
         ),
         textAlign: TextAlign.left,
       ),
@@ -41,11 +42,11 @@ class MausamSliverAppBar extends StatelessWidget {
             }
           },
           icon: Icon(Icons.search, size: 36),
-          color: Colors.blue.shade900,
+          color: fontColor,
           padding: EdgeInsets.only(right: 8),
         ),
       ],
-      shadowColor: Colors.blue.shade100,
+      shadowColor: primary,
       expandedHeight: 300,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
@@ -61,16 +62,16 @@ class MausamSliverAppBar extends StatelessWidget {
                 children: [
                   Text(
                     '$temperature°C',
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: currentDataFontColor,
                       fontSize: 56,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     condition,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: currentDataFontColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -82,7 +83,7 @@ class MausamSliverAppBar extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.blue.shade100,
+      backgroundColor: primary,
     );
   }
 }

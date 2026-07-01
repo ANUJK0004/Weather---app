@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mausam/Widgets/weather_body.dart';
+import 'package:mausam/utils/theme.dart';
 import '../models/weather.dart';
 import '../services/location_service.dart';
 import '../services/weather_service.dart';
@@ -33,12 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade100,
+      backgroundColor: primary,
       body: FutureBuilder<Weather>(
         future: weatherUpdates,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(
+              color: fontColor,
+              backgroundColor: primary,
+            ));
           }
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
@@ -49,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
           final weather = snapshot.data!;
           return RefreshIndicator(
             onRefresh: fetchLocation,
-            color: Colors.blue.shade900,
-            backgroundColor: Colors.blue.shade100,
+            color: fontColor,
+            backgroundColor: primary,
             child: WeatherBody(
               weather: weather,
               onCitySelected: (city) {
