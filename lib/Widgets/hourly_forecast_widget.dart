@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mausam/Widgets/box_decoration.dart';
+import 'package:mausam/utils/box_decoration.dart';
 import 'package:mausam/models/hourly_forecast.dart';
 import 'package:mausam/utils/theme.dart';
 
@@ -24,7 +24,7 @@ class HourlyForecastWidget extends StatelessWidget {
             child: Text(
               'Today',
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: fontColor,
               ),
@@ -44,7 +44,7 @@ class HourlyForecastWidget extends StatelessWidget {
                         Text(
                           '${hourlyForecast.temperature}℃',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: fontColor,
                           ),
@@ -55,7 +55,7 @@ class HourlyForecastWidget extends StatelessWidget {
                           height: 64,
                         ),
                         Text(
-                          DateFormat.jm().format(DateTime.parse(hourlyForecast.time)),
+                          DateFormat.j().format(DateTime.parse(hourlyForecast.time)),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

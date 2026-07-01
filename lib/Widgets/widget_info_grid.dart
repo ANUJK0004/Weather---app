@@ -10,8 +10,8 @@ class WidgetInfoGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
         crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
         childAspectRatio: 1.2,
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,

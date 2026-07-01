@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mausam/utils/theme.dart';
 
-import 'box_decoration.dart';
+import '../utils/box_decoration.dart';
 
 class WeatherInfoCard extends StatelessWidget {
   const WeatherInfoCard({super.key, required this.info,required this.title,this.color});
@@ -20,7 +20,7 @@ class WeatherInfoCard extends StatelessWidget {
           Text(
             info,
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
               color: color ?? fontColor,
             ),
@@ -28,9 +28,9 @@ class WeatherInfoCard extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 16,
               color: fontColor,
-              // fontWeight: FontWeight.bold,
+              // fontWeight: FontWeight.,
             ),
           ),
         ],

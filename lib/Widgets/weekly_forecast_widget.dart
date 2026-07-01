@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:mausam/models/weekly_forecast.dart';
 import 'package:mausam/utils/theme.dart';
 
-import 'box_decoration.dart';
+import '../utils/box_decoration.dart';
 
 class WeeklyForecastWidget extends StatelessWidget {
   const WeeklyForecastWidget({super.key,required this.weeklyForecast});
@@ -46,7 +46,7 @@ class WeeklyForecastWidget extends StatelessWidget {
             child: Text(
               'Weekly forecast',
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: fontColor,
               ),
@@ -58,52 +58,55 @@ class WeeklyForecastWidget extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   final weeklyForecast = this.weeklyForecast[index];
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              getDayLabel(weeklyForecast.date),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                getDayLabel(weeklyForecast.date),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: fontColor,
+                                ),
+                              ),
+                            ),
+                            Image.network(
+                              'https:${weeklyForecast.icon}',
+                              width: 64,
+                              height: 64,
+                            ),
+                            SizedBox(width: 12),
+                            Text(
+                              '${weeklyForecast.minTemperature}°C',
                               style: TextStyle(
-                                fontSize: 28,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: fontColor,
                               ),
                             ),
-                          ),
-                          Image.network(
-                            'https:${weeklyForecast.icon}',
-                            width: 64,
-                            height: 64,
-                          ),
-                          SizedBox(width: 12),
-                          Text(
-                            '${weeklyForecast.minTemperature}°C',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: fontColor,
+                            const SizedBox(width: 16),
+                            Text(
+                              '${weeklyForecast.maxTemperature}°C',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: fontColor,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            '${weeklyForecast.maxTemperature}°C',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: fontColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      index == 6 ? SizedBox() :
-                      Divider(
-                        color: fontColor,
-                        thickness: 2,
-                      ),
-                    ],
+                          ],
+                        ),
+                        index == 6 ? SizedBox() :
+                        Divider(
+                          color: fontColor,
+                          thickness: 2,
+                        ),
+                      ],
+                    ),
                   );
                 }
             ),

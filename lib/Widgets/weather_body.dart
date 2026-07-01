@@ -17,6 +17,7 @@ class WeatherBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       slivers: <Widget>[
         MausamSliverAppBar(
@@ -30,11 +31,11 @@ class WeatherBody extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
                 WeeklyForecastWidget(weeklyForecast: weather.weeklyForecast),
-                const SizedBox(height: 12),
+                const SizedBox(height: 20),
                 HourlyForecastWidget(hourlyForecast: weather.hourlyForecast),
                 WidgetInfoGrid(weather: weather),
               ],

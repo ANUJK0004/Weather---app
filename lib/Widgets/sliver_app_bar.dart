@@ -46,9 +46,9 @@ class MausamSliverAppBar extends StatelessWidget {
           padding: EdgeInsets.only(right: 8),
         ),
       ],
-      shadowColor: primary,
+      shadowColor: Colors.transparent,
       expandedHeight: 300,
-      pinned: true,
+      pinned: false,
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -64,7 +64,7 @@ class MausamSliverAppBar extends StatelessWidget {
                     '$temperature°C',
                     style: TextStyle(
                       color: currentDataFontColor,
-                      fontSize: 56,
+                      fontSize: 84,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -83,7 +83,8 @@ class MausamSliverAppBar extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: primary,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
     );
   }
 }
